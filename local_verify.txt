@@ -1,0 +1,45 @@
+➜  hbtn-devops-pipeline-lab git:(main) docker compose ps
+NAME                             IMAGE                          COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+hbtn-devops-pipeline-lab-app-1   hbtn-devops-pipeline-lab-app   "docker-entrypoint.s…"   app       28 seconds ago   Up 21 seconds             0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
+hbtn-devops-pipeline-lab-db-1    postgres:16-alpine             "docker-entrypoint.s…"   db        28 seconds ago   Up 27 seconds (healthy)   5432/tcp
+➜  hbtn-devops-pipeline-lab git:(main) docker compose run --rm app npm run test:unit
+[+]  1/1t 1/11
+ ✔ Container hbtn-devops-pipeline-lab-db-1 Running                                                                                                                                                                                                        0.0s
+Container hbtn-devops-pipeline-lab-db-1 Waiting 
+Container hbtn-devops-pipeline-lab-db-1 Healthy 
+Container hbtn-devops-pipeline-lab-app-run-6382e30f7a8c Creating 
+Container hbtn-devops-pipeline-lab-app-run-6382e30f7a8c Created 
+
+> hbtn-devops-pipeline-lab@1.0.0 test:unit
+> jest --runInBand tests/unit
+
+ PASS  tests/unit/items.unit.test.js
+ PASS  tests/unit/health.test.js
+
+Test Suites: 2 passed, 2 total
+Tests:       8 passed, 8 total
+Snapshots:   0 total
+Time:        0.439 s
+Ran all test suites matching tests/unit.
+➜  hbtn-devops-pipeline-lab git:(main) docker compose run --rm app npm run test:integration
+[+]  1/1t 1/11
+ ✔ Container hbtn-devops-pipeline-lab-db-1 Running                                                                                                                                                                                                        0.0s
+Container hbtn-devops-pipeline-lab-db-1 Waiting 
+Container hbtn-devops-pipeline-lab-db-1 Healthy 
+Container hbtn-devops-pipeline-lab-app-run-3ea3334ef7c8 Creating 
+Container hbtn-devops-pipeline-lab-app-run-3ea3334ef7c8 Created 
+
+> hbtn-devops-pipeline-lab@1.0.0 test:integration
+> jest --runInBand tests/integration
+
+ PASS  tests/integration/items.int.test.js
+
+Test Suites: 1 passed, 1 total
+Tests:       3 passed, 3 total
+Snapshots:   0 total
+Time:        0.419 s
+Ran all test suites matching tests/integration.
+➜  hbtn-devops-pipeline-lab git:(main) url -s http://localhost:3000/health
+zsh: command not found: url
+➜  hbtn-devops-pipeline-lab git:(main) curl -s http://localhost:3000/health
+{"status":"ok"}%                             
